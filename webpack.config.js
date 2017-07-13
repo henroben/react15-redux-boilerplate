@@ -16,7 +16,7 @@ const VENDOR_LIBS = [
 
 module.exports = {
     entry: {
-        bundle: ['./src/index.js', './style/style.scss'],
+        bundle: ['./src/index.js', './style/style.scss', 'bootstrap-loader/extractStyles'],
         vendor: VENDOR_LIBS
     },
     output: {
@@ -39,14 +39,23 @@ module.exports = {
                 use: [
                     {
                         loader: 'url-loader',
-                        options: { limit: 40000, publicPath: '../', name: './img/[hash].[ext]' }
+                        options: {
+                            limit: 10000,
+                            publicPath: '../',
+                            name: 'img/[hash].[ext]' }
                     }, // depending on image size, will either incorporate img directly into bundle.js (< 40 kb) or supply link, use object rather than string so can set config
                     {
                         loader: 'image-webpack-loader',
                         query: {
-                            progressive: true,
-                            optimizationLevel: 7,
-                            interlaced: false,
+                            mozjpeg: {
+                                progressive: true
+                            },
+                            gifsicle: {
+                                interlaced: true
+                            },
+                            optipng: {
+                                optimizationLevel: 7
+                            },
                             pngquant: {
                                 quality: '65-90',
                                 speed: 4
