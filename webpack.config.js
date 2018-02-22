@@ -30,6 +30,10 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/ // exclude node modules as trust that all are ES5 already
             },
+            // { // sass / scss loader for webpack
+            //     test: /\.(sass|scss)$/,
+            //     loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+            // },
             { // sass / scss loader for webpack
                 test: /\.(sass|scss)$/,
                 loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
@@ -39,22 +43,19 @@ module.exports = {
                 use: [
                     {
                         loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            publicPath: '../',
-                            name: 'img/[hash].[ext]' }
+                        options: { limit: 40000, publicPath: './', name: './img/[hash].[ext]' }
                     }, // depending on image size, will either incorporate img directly into bundle.js (< 40 kb) or supply link, use object rather than string so can set config
                     {
                         loader: 'image-webpack-loader',
                         query: {
                             mozjpeg: {
-                                progressive: true
-                            },
-                            gifsicle: {
-                                interlaced: true
+                                progressive: true,
                             },
                             optipng: {
-                                optimizationLevel: 7
+                                optimizationLevel: 7,
+                            },
+                            gifsicle: {
+                                interlaced: false,
                             },
                             pngquant: {
                                 quality: '65-90',
